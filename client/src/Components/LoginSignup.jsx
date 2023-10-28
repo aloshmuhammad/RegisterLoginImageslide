@@ -4,8 +4,11 @@ import email_icon from './Assets/email.png';
 import user_icon from './Assets/person.png';
 import password_icon from './Assets/password.png';
 import instance from '../Axios/instance';
+import { useDispatch } from 'react-redux';
+import { setUser,setToken } from '../Redux/userSlice';
 
 const LoginSignup = () => {
+    const dispatch=useDispatch()
     const [action, setAction] = useState('Sign Up');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,6 +20,11 @@ const LoginSignup = () => {
         name: '',
         phoneNumber: '',
     });
+    const handleClick=()=>{
+        setAction(action === 'Sign Up' ? 'Login' : 'Sign Up')
+        setErrors('')
+
+    }
 
     const handleFormSubmit = () => {
         let valid = true;
@@ -61,27 +69,39 @@ const LoginSignup = () => {
             };
 
             instance
-                .post('/user/sign-up', { formData })
+                .post('/user/sign-up', { formData },{ withCredentials: true })
                 .then((response) => {
-                    console.log(response)
+                    const {data}=response
+                    dispatch(setUser(data?.newUser))
+                    
                 })
                 .catch((err) => {
                     if (err.response) {
                     
-                        console.error('Server Error:', err.response.data.error);
+                       
                        
                         setErrors({ ...newErrors, serverError: err.response.data.error });
-                    } else if (err.request) {
-                        
-                        console.error('Request Error:', err.request);
-                    } else {
-                       
-                        console.error('Error:', err.message);
-                    }
+                    } 
 
                    
                 });
-        } else {
+        } else if(action=='Login'){
+            const formData={email:email,
+                           password:password }
+              instance.post('/user/sign-in',{formData}).then((response)=>{
+              const {data}=response
+              dispatch(setUser(data?.validUser))
+              dispatch(setToken(data?.token))
+              }).catch((err)=>{
+                if (err.response) {
+                    
+                       
+                       
+                    setErrors({ ...newErrors, serverError: err.response.data.error });
+                } 
+              })
+        }
+        else {
             setErrors(newErrors);
         }
     };
@@ -93,7 +113,34 @@ const LoginSignup = () => {
                 <div className='underline'></div>
             </div>
             <div className='inputs'>
+                {action==='Login'?
+                 <>
+                 
+                 <div className='input'>
+                    <img src={email_icon} alt='' />
+                    <input
+                        type='email'
+                        value={email}
+                        onChange={(event) => setEmail(event.target.value)}
+                        placeholder='Email Id'
+                    />
+                  
+                </div>
                 <div className='input'>
+                    <img src={password_icon} alt='' />
+                    <input
+                        type='password'
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        placeholder='Password'
+                    />
+                  
+                </div>
+                 
+                 </>   :
+                 <>
+                 
+                 <div className='input'>
                     <img src={email_icon} alt='' />
                     <input
                         type='email'
@@ -113,6 +160,7 @@ const LoginSignup = () => {
                     />
                     {errors.password && <div className='error'>{errors.password}</div>}
                 </div>
+
                 <div className='input'>
                     <img src={user_icon} alt='' />
                     <input
@@ -133,14 +181,27 @@ const LoginSignup = () => {
                     />
                     {errors.phoneNumber && <div className='error'>{errors.phoneNumber}</div>}
                 </div>
+                 
+                 </>
+                
+                }
+               
+              
+               
+               
             </div>
+            
+        {action==='Login'?
+          <div className="forgot-password">Forgot Password?<span>Click here</span></div>:''
+        }
             <div className='submit-container'>
                 <div className='submit' onClick={handleFormSubmit}>
                     {action === 'Sign Up' ? 'Sign Up' : 'Login'}
                 </div>
                 <div
                     className='submit gray'
-                    onClick={() => setAction(action === 'Sign Up' ? 'Login' : 'Sign Up')}
+                    onClick={handleClick}
+                    // onClick={() => setAction(action === 'Sign Up' ? 'Login' : 'Sign Up')}
                 >
                     {action === 'Sign Up' ? 'Login' : 'Sign Up'}
                 </div>

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { registerUser } from '../Model/Helpers/userHelper.js';
+import { registerUser,validSignin } from '../Model/Helpers/userHelper.js';
 
 const signUpController=async(req,res)=>{
     try{
@@ -16,5 +16,19 @@ const signUpController=async(req,res)=>{
       }
  
 }
+const signinController=async(req,res)=>{
+    try{
+        const {formData}=req.body
+        validSignin(formData).then((response)=>{
+            res.cookie("token", response.token).status(200).json(response);
+        }).catch((error) => {
+            console.log(error, "er");
+            res.status(401).json({ error: error.message });
+          });
+    }catch (error) {
+        res.status(500).json({ message: "An error occured", error: error.message });
+      }
+ 
+}
 
-export {signUpController}
+export {signUpController,signinController}
