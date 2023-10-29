@@ -1,5 +1,8 @@
 import LoginSignup from './Components/LoginSignup';
+import React from 'react';
 import './App.css'
+import ForgotPassword from './Components/ForgotPassword';
+import ResetPassword from './Components/ResetPassword';
 import {
   BrowserRouter as Router,
   Route,
@@ -18,6 +21,22 @@ function App() {
             element={
               
                 <LoginSignup/>
+             
+            }
+          />
+            <Route
+            path="/forgot-password"
+            element={
+              
+                <ForgotPassword/>
+             
+            }
+          />
+           <Route
+            path="/reset-password/:id/:token"
+            element={
+              
+                <ResetPassword/>
              
             }
           />

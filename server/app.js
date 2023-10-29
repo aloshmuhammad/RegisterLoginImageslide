@@ -15,7 +15,7 @@ const router = express.Router();
 app.use(logger("dev"));
 app.use(express.json());
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({ credentials: true, origin: 'http://localhost:5173' }))
 
 app.use(express.urlencoded({ extended: false }));
 app.use(router);

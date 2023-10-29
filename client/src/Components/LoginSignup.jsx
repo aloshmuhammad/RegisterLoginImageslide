@@ -6,6 +6,7 @@ import password_icon from './Assets/password.png';
 import instance from '../Axios/instance';
 import { useDispatch } from 'react-redux';
 import { setUser,setToken } from '../Redux/userSlice';
+import { Link } from 'react-router-dom';
 
 const LoginSignup = () => {
     const dispatch=useDispatch()
@@ -192,7 +193,7 @@ const LoginSignup = () => {
             </div>
             
         {action==='Login'?
-          <div className="forgot-password">Forgot Password?<span>Click here</span></div>:''
+          <div className="forgot-password">Forgot Password? <Link to='/forgot-password'><span>Click here</span></Link></div>:''
         }
             <div className='submit-container'>
                 <div className='submit' onClick={handleFormSubmit}>
