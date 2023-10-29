@@ -1,0 +1,94 @@
+/* ImageList.css */
+
+.image-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
+  }
+  
+  .image-item {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+    background-color: #f9f9f9;
+  }
+  
+  .image {
+    width: 100%;
+    height: auto;
+    max-height: 200px;
+  }
+  
+  .edit-button,
+  .delete-button {
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .edit-button:hover,
+  .delete-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* EditModal.css */
+  
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+  }
+  
+  .close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close-button:hover,
+  .close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+
+  
+  @media (max-width: 768px) {
+    .image-item {
+      width: 45%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .image-item {
+      width: 100%;
+    }
+  }
+  

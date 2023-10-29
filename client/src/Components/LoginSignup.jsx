@@ -6,7 +6,7 @@ import password_icon from './Assets/password.png';
 import instance from '../Axios/instance';
 import { useDispatch } from 'react-redux';
 import { setUser,setToken } from '../Redux/userSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginSignup = () => {
     const dispatch=useDispatch()
@@ -15,6 +15,7 @@ const LoginSignup = () => {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const navigate=useNavigate()
     const [errors, setErrors] = useState({
         email: '',
         password: '',
@@ -74,6 +75,7 @@ const LoginSignup = () => {
                 .then((response) => {
                     const {data}=response
                     dispatch(setUser(data?.newUser))
+                    navigate('/home')
                     
                 })
                 .catch((err) => {
@@ -93,6 +95,7 @@ const LoginSignup = () => {
               const {data}=response
               dispatch(setUser(data?.validUser))
               dispatch(setToken(data?.token))
+              navigate('/home')
               }).catch((err)=>{
                 if (err.response) {
                     

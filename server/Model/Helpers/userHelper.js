@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
 import  nodeMailer from 'nodemailer'
+import Image from "../Schemas/ImageSchema.js";
 dotenv.config()
 
 const registerUser=async(data)=>{
@@ -134,4 +135,77 @@ const createNewPass=async(id,token,password)=>{
           }
     })
 }
-export {registerUser,validSignin,resetPassword,createNewPass}
+const addImageTodb=async(images,userId)=>{
+   
+    return new Promise(async(resolve,reject)=>{
+        try{
+            const existedImages=Image.find({userId:userId})
+            if(existedImages){
+                await Image.findOneAndUpdate(
+                    { userId },
+                    { $push: { images } },
+                  );
+                  resolve({message:'Image uploaded Sucessfully',
+        status:true})
+                }
+            
+            const newImage = new Image({
+                userId: userId, 
+                images: images,
+              });
+              await Image.create(newImage)
+          resolve({message:'Image uploaded Sucessfully',
+        status:true})
+        }catch (error) {
+            throw new Error("Error occured during Image Upload");
+          }
+    
+    })
+}
+const getAllImages=async(userId)=>{
+    return new Promise(async (resolve, reject) => {
+        try {
+          const document = await Image.findOne({ userId: userId });
+          if (!document) {
+
+            resolve({message:'No uploads',
+                        status:false});
+            return;
+          }
+      
+          const imagesArray = document.images.map((image) => ({
+            _id: image._id,
+            url: image.url,
+            title: image.title,
+          }));
+         
+          resolve(imagesArray);
+        } catch (error) {
+          reject(new Error("Error occurred during Image Fetch"));
+        }
+      });
+      
+}
+const changeImage=async(imageId,newTitle)=>{
+    return new Promise(async(resolve,reject)=>{
+        const updatedImage = await Image.findOneAndUpdate(
+            { 'images._id': imageId },
+            { $set: { 'images.$.title': newTitle } },
+            { new: true }
+          );
+          resolve({message:'Image Edited',
+        status:true,updatedImage})
+    })
+}
+const imageDelete=async(imageId)=>{
+    return new Promise(async(resolve,reject)=>{
+        const updatedImage = await Image.findOneAndUpdate(
+            { 'images._id': imageId },
+            { $pull: { images: { _id: imageId } } },
+            { new: true }
+          );
+        resolve({message:'Image Deleted',
+    status:true})
+    })
+}
+export {registerUser,changeImage,imageDelete,getAllImages,validSignin,resetPassword,createNewPass,addImageTodb}

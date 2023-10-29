@@ -3,6 +3,9 @@ import React from 'react';
 import './App.css'
 import ForgotPassword from './Components/ForgotPassword';
 import ResetPassword from './Components/ResetPassword';
+import HomePage from './Components/HomePage';
+import ImageProcess from './Components/ImageProcess';
+import ImageList from './Components/ImageList';
 import {
   BrowserRouter as Router,
   Route,
@@ -37,6 +40,30 @@ function App() {
             element={
               
                 <ResetPassword/>
+             
+            }
+          />
+           <Route
+            path="/home"
+            element={
+              
+                <HomePage/>
+             
+            }
+          />
+          <Route
+            path="/image-upload"
+            element={
+              
+                <ImageProcess/>
+             
+            }
+          />
+            <Route
+            path="/image-list"
+            element={
+              
+                <ImageList/>
              
             }
           />
