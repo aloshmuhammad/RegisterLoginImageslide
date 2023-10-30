@@ -54,16 +54,14 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 }));
 
 const HomePage = () => {
-
-    const userDetail=useSelector((state)=>state.userSlice.user)
+  const userDetail = useSelector((state) => state.userSlice.user);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const handleLogOut = () => {
-    localStorage.clear()
-    navigate('/')
-   
+    localStorage.clear();
+    navigate("/");
   };
 
   const handleDrawerToggle = () => {
@@ -72,7 +70,14 @@ const HomePage = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          marginTop: "20px", // Adjust this value based on your design
+          // ...
+        }}
+      >
         <AppBar position="fixed">
           <Toolbar>
             <IconButton
@@ -122,16 +127,22 @@ const HomePage = () => {
               <ListItemButton
                 sx={{ backgroundColor: "black" }}
                 component={Link}
-                to=""
+                to="/image-upload"
               >
                 <ListItemIcon>{/* Add icon component here */}</ListItemIcon>
-                <ListItemText sx={{ color: "cyan" }} primary="Users" />
+                <ListItemText sx={{ color: "cyan" }} primary="Upload Photos" />
               </ListItemButton>
-              
-            
+
+              <ListItemButton
+                sx={{ backgroundColor: "black" }}
+                component={Link}
+                to="/image-list"
+              >
+                <ListItemIcon>{/* Add icon component here */}</ListItemIcon>
+                <ListItemText sx={{ color: "cyan" }} primary="view Uploads" />
+              </ListItemButton>
             </List>
             <Divider />
-            {/* Add additional sections or menu items here */}
           </Drawer>
         </Hidden>
         <Box
@@ -168,19 +179,8 @@ const HomePage = () => {
           >
             <DrawerHeader />
             <Divider />
-            <List>
-              <Link to="/admin/users-list">
-                <ListItemButton sx={{ backgroundColor: "black" }}>
-                  <ListItemIcon>{/* Add icon component here */}</ListItemIcon>
-                  <ListItemText sx={{ color: "cyan" }} primary="Students" />
-                </ListItemButton>
-              </Link>
-              
-             
-              
-            </List>
+            <List></List>
             <Divider />
-
           </Drawer>
         </Hidden>
       </Box>

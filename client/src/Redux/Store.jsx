@@ -1,21 +1,17 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; 
-
-
+import storage from "redux-persist/lib/storage";
 
 import userSlices from "./userSlice";
 
 const rootReducer = combineReducers({
   userSlice: userSlices,
- 
 });
 
 const persistConfig = {
-  key: "root", 
-  storage, // Storage engine to use (e.g., localStorage)
+  key: "root",
+  storage, 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

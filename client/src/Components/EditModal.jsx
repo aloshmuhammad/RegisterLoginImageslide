@@ -1,5 +1,5 @@
-import React,{useState} from 'react';
-import './EditModal.css';
+import React, { useState } from "react";
+import "./EditModal.css";
 
 const EditModal = ({ isOpen, onClose, defaultTitle, onSave }) => {
   const [newTitle, setNewTitle] = useState(defaultTitle);
@@ -10,7 +10,7 @@ const EditModal = ({ isOpen, onClose, defaultTitle, onSave }) => {
   };
 
   return (
-    <div className={`modal ${isOpen ? 'open' : ''}`}>
+    <div className={`modal ${isOpen ? "open" : ""}`}>
       <div className="modal-content">
         <h2>Edit Image</h2>
         <input
@@ -19,12 +19,15 @@ const EditModal = ({ isOpen, onClose, defaultTitle, onSave }) => {
           onChange={(e) => setNewTitle(e.target.value)}
           placeholder="Enter new title"
         />
-        <button onClick={handleSave}>Save</button>
-        <button onClick={onClose}>Cancel</button>
+        <button className="btn" onClick={handleSave}>
+          Save
+        </button>
+        <button className="btn" onClick={onClose}>
+          Cancel
+        </button>
       </div>
     </div>
   );
 };
 
 export default EditModal;
-
